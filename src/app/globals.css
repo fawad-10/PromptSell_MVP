@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Macan", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    background-color: #f7f7f7;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 py-3 rounded-md font-semibold transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-fiverr-green text-white hover:bg-fiverr-green-dark shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-fiverr-text border border-fiverr-border-light hover:bg-fiverr-bg;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-fiverr-border hover:shadow-md transition-shadow;
+  }
+
+  .fiverr-gradient {
+    background: linear-gradient(135deg, #1dbf73 0%, #19a463 100%);
+  }
+
+  .fiverr-nav {
+    @apply bg-white border-b border-fiverr-border shadow-sm;
+  }
+
+  .fiverr-search {
+    @apply bg-white border border-fiverr-border-light rounded-lg focus:border-fiverr-green focus:ring-1 focus:ring-fiverr-green;
+  }
+
+  .fiverr-card {
+    @apply bg-white rounded-lg border border-fiverr-border hover:border-fiverr-green transition-all duration-200;
+  }
+
+  .fiverr-price {
+    @apply text-fiverr-text font-bold;
+  }
+
+  .fiverr-text {
+    @apply text-fiverr-text;
+  }
+
+  .fiverr-text-light {
+    @apply text-fiverr-text-light;
+  }
+}
