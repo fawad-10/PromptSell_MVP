@@ -52,7 +52,7 @@ export default function TermsPage() {
             </p>
             <p className='text-gray-600'>
               When selling prompts, you warrant that you have the necessary
-              rights to the content you're selling and that it doesn't infringe
+              rights to the content you&apos;re selling and that it doesn&apos;t infringe
               on any third-party rights.
             </p>
           </section>
@@ -93,7 +93,7 @@ export default function TermsPage() {
               6. Limitation of Liability
             </h2>
             <p className='text-gray-600'>
-              PromptSell is provided "as is" without any warranties. We are not
+              PromptSell is provided &quot;as is&quot; without any warranties. We are not
               responsible for any damages or losses resulting from your use of
               the service. We reserve the right to modify or terminate the
               service at any time.

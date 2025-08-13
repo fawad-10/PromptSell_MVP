@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { checkCurrentUserOwnership } from "../lib/ownership";
 import { supabase } from "../lib/supabase";
@@ -23,9 +23,9 @@ export default function Navigation() {
       checkCurrentUserOwnership().then(setOwnership);
       fetchUserProfile();
     }
-  }, [user]);
+  }, [user, fetchUserProfile]);
 
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -41,7 +41,7 @@ export default function Navigation() {
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
-  };
+  }, [user]);
 
   const isSeller = userProfile?.role === "seller";
 

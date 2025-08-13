@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import CheckoutButton from "../../components/CheckoutButton";
@@ -81,9 +81,9 @@ export default function GeneratePage() {
         checkIfUserIsPromptCreator(type);
       }
     }
-  }, [searchParams]);
+  }, [searchParams, checkPromptOwnership, checkIfUserIsPromptCreator]);
 
-  const checkPromptOwnership = async (promptType) => {
+  const checkPromptOwnership = useCallback(async (promptType) => {
     if (!user) return;
 
     try {
@@ -130,9 +130,9 @@ export default function GeneratePage() {
       console.error("Error checking ownership:", error);
       setError("Failed to verify prompt ownership");
     }
-  };
+  }, [user, setError, setRequiresUpgrade]);
 
-  const checkIfUserIsPromptCreator = async (promptType) => {
+  const checkIfUserIsPromptCreator = useCallback(async (promptType) => {
     if (!user) return;
 
     try {
@@ -162,7 +162,7 @@ export default function GeneratePage() {
     } catch (error) {
       console.error("Error checking prompt creator:", error);
     }
-  };
+  }, [user, setIsPromptCreator]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -422,7 +422,7 @@ export default function GeneratePage() {
                         </div>
                         <div className='flex-1'>
                           <h3 className='text-lg font-semibold text-green-800 mb-2'>
-                            ✅ You're the Creator of This Prompt!
+                            ✅ You&apos;re the Creator of This Prompt!
                           </h3>
                           <p className='text-green-700 mb-4'>
                             Since you created this prompt, you can use it

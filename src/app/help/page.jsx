@@ -24,7 +24,7 @@ export default function HelpPage() {
                 </h3>
                 <p className='text-gray-600'>
                   PromptSell is a marketplace where you can buy and sell AI
-                  prompts. Whether you're looking to purchase high-quality,
+                  prompts.                   Whether you&apos;re looking to purchase high-quality,
                   tested prompts or monetize your own creations, our platform
                   makes it easy to participate in the AI prompt economy.
                 </p>
@@ -36,7 +36,7 @@ export default function HelpPage() {
                 <ol className='list-decimal list-inside text-gray-600 space-y-2'>
                   <li>Create an account using your email</li>
                   <li>Browse available prompts in our marketplace</li>
-                  <li>Purchase prompts you're interested in</li>
+                  <li>Purchase prompts you&apos;re interested in</li>
                   <li>
                     Start selling your own prompts by visiting the Sell page
                   </li>
@@ -57,8 +57,8 @@ export default function HelpPage() {
                 </h3>
                 <p className='text-gray-600'>
                   Browse our marketplace and select the prompt you want to
-                  purchase. Click on the prompt to view details, then click the
-                  "Buy Now" button. Follow the checkout process to complete your
+                  purchase.                   Click on the prompt to view details, then click the
+                  &quot;Buy Now&quot; button. Follow the checkout process to complete your
                   purchase.
                 </p>
               </div>
@@ -67,7 +67,7 @@ export default function HelpPage() {
                   Accessing purchased prompts
                 </h3>
                 <p className='text-gray-600'>
-                  After purchase, you'll have immediate access to your prompts.
+                  After purchase, you&apos;ll have immediate access to your prompts.
                   You can find all your purchased prompts in your account
                   dashboard.
                 </p>
@@ -86,7 +86,7 @@ export default function HelpPage() {
                   How to sell prompts
                 </h3>
                 <p className='text-gray-600'>
-                  Visit the Sell page to list your prompts. You'll need to
+                  Visit the Sell page to list your prompts. You&apos;ll need to
                   provide a title, description, category, and price for your
                   prompt. Make sure to follow our guidelines for quality and
                   content.
@@ -110,7 +110,7 @@ export default function HelpPage() {
               Need More Help?
             </h2>
             <p className='text-gray-600 mb-4'>
-              If you couldn't find the answer you're looking for, our support
+              If you couldn&apos;t find the answer you&apos;re looking for, our support
               team is here to help.
             </p>
             <a

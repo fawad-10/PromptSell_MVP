@@ -176,9 +176,9 @@ export default function CancelPage() {
           {/* Help Section */}
           <div className='mt-8 pt-6 border-t border-gray-200 text-center'>
             <h4 className='font-semibold text-gray-800 mb-2'>Need Help?</h4>
-            <p className='text-sm text-gray-600 mb-3'>
-              If you're experiencing issues with payment, we're here to help!
-            </p>
+                          <p className='text-sm text-gray-600 mb-3'>
+                If you&apos;re experiencing issues with payment, we&apos;re here to help!
+              </p>
             <div className='flex flex-col sm:flex-row gap-2 justify-center text-sm'>
               <a
                 href='mailto:support@promptsell.com'

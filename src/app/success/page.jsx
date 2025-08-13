@@ -1,20 +1,26 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
+import ProtectedRoute from "../../components/ProtectedRoute";
 import Link from "next/link";
 
 export default function SuccessPage() {
-  const { user } = useAuth();
-  const searchParams = useSearchParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { user } = useAuth();
+  const sessionId = searchParams.get("session_id");
   const [sessionData, setSessionData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [promptDetails, setPromptDetails] = useState({
+    title: "",
+    description: "",
+    content: "",
+    price: 0,
+    author: "",
+  });
   const [processingPayment, setProcessingPayment] = useState(false);
   const [error, setError] = useState("");
-  const [promptDetails, setPromptDetails] = useState(null);
-
-  const sessionId = searchParams.get("session_id");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!sessionId) {
@@ -23,7 +29,7 @@ export default function SuccessPage() {
     }
 
     processPayment();
-  }, [sessionId, router]);
+  }, [sessionId, router, processPayment]);
 
   const getTraditionalPromptTitle = (promptType) => {
     const titles = {
@@ -91,7 +97,7 @@ export default function SuccessPage() {
     }
   };
 
-  const processPayment = async () => {
+  const processPayment = useCallback(async () => {
     try {
       setProcessingPayment(true);
 
@@ -117,42 +123,21 @@ export default function SuccessPage() {
         id: sessionId,
         amount: data.amount,
         currency: data.currency,
-        status: "completed",
+        productType: data.product_type,
       });
 
-      // Get prompt details from the response
-      if (data.product_type) {
-        setPromptDetails({
-          type: data.product_type,
-          // For seller prompts, we'll need to fetch additional details
-          isSellerPrompt: data.product_type.startsWith("seller_"),
-        });
-
-        // If it's a seller prompt, fetch the complete details
-        if (data.product_type.startsWith("seller_")) {
-          await fetchSellerPromptDetails(data.product_type);
-        } else {
-          // For traditional prompts, set the basic details
-          setPromptDetails((prev) => ({
-            ...prev,
-            title: getTraditionalPromptTitle(data.product_type),
-            description: getTraditionalPromptDescription(data.product_type),
-            content: getTraditionalPromptContent(data.product_type),
-            price: getTraditionalPromptPrice(data.product_type),
-            author: "PromptSell",
-          }));
-        }
+      // Fetch prompt details if this is a seller prompt
+      if (data.product_type && data.product_type.startsWith("seller_")) {
+        await fetchSellerPromptDetails(data.product_type);
       }
 
-      setLoading(false);
+      setProcessingPayment(false);
     } catch (err) {
       console.error("Payment processing error:", err);
       setError(err.message);
-      setLoading(false);
-    } finally {
       setProcessingPayment(false);
     }
-  };
+  }, [sessionId, user?.id]);
 
   if (loading) {
     return (

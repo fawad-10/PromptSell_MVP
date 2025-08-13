@@ -13,8 +13,8 @@
 # stripe
 stripe.js
 stripe.d.ts
-/.markdown_files/
-/.sql
+/markdown_files/
+/sql
 
 
 # testing

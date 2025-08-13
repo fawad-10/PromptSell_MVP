@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 
 // Initialize Gemini API with your API key
 const genAI = new GoogleGenAI({
-  apiKey: "AIzaSyCmrz6kq7YhaYomVexO3BQzukkzv9OTMnM",
+  apiKey: "AIzaSyCmrz6kq7YhaYomVexO3BQzukkzv9OTMnk",
 });
 
 /**
@@ -70,8 +70,3 @@ export async function generateWithGeminiStream(prompt, onChunk, options = {}) {
     throw new Error(`Gemini API Stream Error: ${error.message}`);
   }
 }
-
-export default {
-  generateWithGemini,
-  generateWithGeminiStream,
-};

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../../lib/supabase";
 import PromptCard from "../../components/PromptCard";
 import ProtectedRoute from "../../components/ProtectedRoute";
@@ -35,57 +35,7 @@ export default function BrowsePage() {
       : []),
   ];
 
-  useEffect(() => {
-    fetchPrompts();
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      checkCurrentUserOwnership().then(setOwnership);
-    }
-  }, [user]);
-
-  // Fetch user profile to check if they're a seller
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (user) {
-        try {
-          const { data: profile, error } = await supabase
-            .from("profiles")
-            .select("role, display_name, username")
-            .eq("id", user.id)
-            .single();
-
-          if (!error && profile) {
-            setUserProfile(profile);
-          }
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-        }
-      }
-    };
-
-    fetchUserProfile();
-  }, [user]);
-
-  // Refresh ownership status when URL changes (after purchase)
-  useEffect(() => {
-    const refreshOwnership = async () => {
-      if (user) {
-        const newOwnership = await checkCurrentUserOwnership();
-        setOwnership(newOwnership);
-      }
-    };
-
-    // Refresh ownership status
-    refreshOwnership();
-  }, [user, typeof window !== "undefined" ? window.location.search : ""]); // Refresh when URL changes (after purchase)
-
-  useEffect(() => {
-    filterPrompts();
-  }, [prompts, searchTerm, selectedCategory]);
-
-  const fetchPrompts = async () => {
+  const fetchPrompts = useCallback(async () => {
     try {
       // Try seller prompts API first (includes own private prompts if authed)
       const {
@@ -154,9 +104,9 @@ export default function BrowsePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
-  const filterPrompts = () => {
+  const filterPrompts = useCallback(() => {
     let filtered = prompts;
 
     // Search filter
@@ -177,7 +127,57 @@ export default function BrowsePage() {
     }
 
     setFilteredPrompts(filtered);
-  };
+  }, [prompts, searchTerm, selectedCategory]);
+
+  useEffect(() => {
+    fetchPrompts();
+  }, [fetchPrompts]);
+
+  useEffect(() => {
+    if (user) {
+      checkCurrentUserOwnership().then(setOwnership);
+    }
+  }, [user]);
+
+  // Fetch user profile to check if they're a seller
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (user) {
+        try {
+          const { data: profile, error } = await supabase
+            .from("profiles")
+            .select("role, display_name, username")
+            .eq("id", user.id)
+            .single();
+
+          if (!error && profile) {
+            setUserProfile(profile);
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, [user]);
+
+  // Refresh ownership status when URL changes (after purchase)
+  useEffect(() => {
+    const refreshOwnership = async () => {
+      if (user) {
+        const newOwnership = await checkCurrentUserOwnership();
+        setOwnership(newOwnership);
+      }
+    };
+
+    // Refresh ownership status
+    refreshOwnership();
+  }, [user]); // Refresh when user changes
+
+  useEffect(() => {
+    filterPrompts();
+  }, [filterPrompts]);
 
   if (loading) {
     return (

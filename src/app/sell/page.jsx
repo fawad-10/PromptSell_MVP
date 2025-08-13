@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import ProtectedRoute from "../../components/ProtectedRoute";
@@ -51,18 +51,7 @@ export default function SellPage() {
   });
   const [sellerPrompts, setSellerPrompts] = useState([]);
 
-  useEffect(() => {
-    checkSellerStatus();
-  }, [user]);
-
-  useEffect(() => {
-    if (isSeller && user) {
-      fetchSellerStats();
-      fetchDrafts();
-    }
-  }, [isSeller, user]);
-
-  const checkSellerStatus = async () => {
+  const checkSellerStatus = useCallback(async () => {
     if (!user) {
       setLoading(false);
       return;
@@ -88,9 +77,18 @@ export default function SellPage() {
       console.error("Error checking seller status:", error);
       setLoading(false);
     }
-  };
+  }, [user]);
 
-  // Role switching removed - roles are now fixed at signup
+  useEffect(() => {
+    checkSellerStatus();
+  }, [checkSellerStatus]);
+
+  useEffect(() => {
+    if (isSeller && user) {
+      fetchSellerStats();
+      fetchDrafts();
+    }
+  }, [isSeller, user]);
 
   const handleAddCustomCategory = () => {
     if (customCategory && !categories.includes(customCategory)) {
@@ -556,7 +554,7 @@ export default function SellPage() {
                     Want to become a seller?
                   </h3>
                   <p className='text-blue-700 text-sm'>
-                    You'll need to create a new account and select "Seller"
+                    You&apos;ll need to create a new account and select &quot;Seller&quot;
                     during the signup process.
                   </p>
                 </div>
@@ -602,7 +600,7 @@ export default function SellPage() {
           {/* Success Message */}
           {showSuccess && (
             <div className='mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded'>
-              Prompt created successfully! It's now available for purchase.
+              Prompt created successfully! It&apos;s now available for purchase.
             </div>
           )}
 
